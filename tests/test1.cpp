@@ -5,18 +5,20 @@
  * @Project: Async-Web-Communicator
  * @Filename: test1.cpp
  * @Last modified by:   miszo97
- * @Last modified time: March 18, 2018 10:50 PM
+ * @Last modified time: March 19, 2018 12:42 AM
  */
 
 
 
 #define BOOST_TEST_MODULE module_test
 #include <boost/test/included/unit_test.hpp>
+#include "AWC.hpp"
 
-BOOST_AUTO_TEST_SUITE( test_suite1 )
+BOOST_AUTO_TEST_SUITE( AWC testing )
 
 BOOST_AUTO_TEST_CASE( test_case1 )
 {
+  AWC 
   BOOST_TEST_WARN( sizeof(int) < 4U );
 }
 

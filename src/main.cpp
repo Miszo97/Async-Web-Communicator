@@ -5,7 +5,7 @@
  * @Project: Async-Web-Communicator
  * @Filename: main.cpp
  * @Last modified by:   miszo97
- * @Last modified time: March 18, 2018 12:33 AM
+ * @Last modified time: March 19, 2018 12:31 AM
  */
 
  #include "AWC.hpp"
@@ -14,10 +14,13 @@
 int main(int argc, char const *argv[]) {
   // let it start
 
+  if(argc != 2)
+  return 1;
+
   try{
 
     AWC awc;
-    awc.start();
+    awc.start(argv[1]);
 
   } catch (...) {
 

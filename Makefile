@@ -4,9 +4,9 @@
 # @Project: Async-Web-Communicator
 # @Filename: Makefile
 # @Last modified by:   miszo97
-# @Last modified time: March 18, 2018 10:52 PM
+# @Last modified time: March 19, 2018 12:36 AM
 
 all:
-		g++ src/main.cpp src/AWC.cpp -o exec
+		g++ src/main.cpp src/interface.cpp src/safeQueue.cpp src/safeVector.cpp src/AWC.cpp -o exec
 test:
 		g++ tests/test1.cpp -I/Users/miszo97/Documents/Programming/boost_1_66_0 -o test

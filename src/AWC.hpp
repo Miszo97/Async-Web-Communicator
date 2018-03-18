@@ -5,7 +5,7 @@
  * @Project: Async-Web-Communicator
  * @Filename: AWC.hpp
  * @Last modified by:   miszo97
- * @Last modified time: March 18, 2018 6:53 PM
+ * @Last modified time: March 19, 2018 12:23 AM
  */
 
  #ifndef AWC_HPP
@@ -19,7 +19,7 @@
  public:
    void runServer();
    void runClient();
-   void start();
+   void start(const char*);
 
  private:
    safeQueue<std::string> outgoing_data;
