@@ -5,7 +5,7 @@
  * @Project: Async-Web-Communicator
  * @Filename: interface.hpp
  * @Last modified by:   miszo97
- * @Last modified time: March 18, 2018 6:52 PM
+ * @Last modified time: March 19, 2018 2:18 AM
  */
 
 
@@ -20,7 +20,7 @@ class Interface{
 
 public:
 void display();
-void run();
+void start();
 
 private:
 std::vector<std::string> messages_to_display;

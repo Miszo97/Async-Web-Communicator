@@ -4,9 +4,12 @@
 # @Project: Async-Web-Communicator
 # @Filename: Makefile
 # @Last modified by:   miszo97
-# @Last modified time: March 19, 2018 12:36 AM
+# @Last modified time: March 19, 2018 2:36 AM
+
+BOOST_DIR := -I/Users/miszo97/Documents/Programming/boost_1_66_0
+COMPILER := g++ #/usr/local/Cellar/gcc/7.3.0/bin/g++-7
 
 all:
-		g++ src/main.cpp src/interface.cpp src/safeQueue.cpp src/safeVector.cpp src/AWC.cpp -o exec
+		$(COMPILER) $(BOOST_DIR) src/main.cpp src/interface.cpp src/safeQueue.cpp src/safeVector.cpp src/AWC.cpp -o exec
 test:
-		g++ tests/test1.cpp -I/Users/miszo97/Documents/Programming/boost_1_66_0 -o test
+		$(COMPILER) $(BOOST_DIR) tests/test1.cpp -o

@@ -5,7 +5,7 @@
  * @Project: Async-Web-Communicator
  * @Filename: AWC.cpp
  * @Last modified by:   miszo97
- * @Last modified time: March 19, 2018 12:28 AM
+ * @Last modified time: March 19, 2018 2:51 AM
  */
 
  #include "AWC.hpp"
@@ -13,6 +13,7 @@
  #include <cstring>
  #include <chrono>
  #include <thread>
+ #include <boost/bind.hpp>
 
  void AWC::runServer() {
 
@@ -33,13 +34,9 @@
 
  void AWC::start(const char * mode) {
 
-   if (std::strcmp(mode, "client")) {
-     std::cout << "server" << '\n';
-     runServer();
-   } else{
-     std::cout << "client" << '\n';
-     runClient();
-   }
+   std::thread interface_thread(boost::bind(&Interface::start, &interface));
+   this->runClient();
+   interface_thread.join();
 
 
  }
