@@ -5,7 +5,7 @@
  * @Project: Async-Web-Communicator
  * @Filename: safeVector.hpp
  * @Last modified by:   miszo97
- * @Last modified time: March 18, 2018 6:06 PM
+ * @Last modified time: March 20, 2018 12:29 AM
  */
 
 
@@ -19,7 +19,10 @@ template <typename T>
 class safeVector {
 
 public:
-  void push_back();
+  void push_back(const T&);
+  T& operator[](size_t);
+  const T& operator[](size_t) const;
+  size_t size();
 
 
 private:
@@ -30,5 +33,30 @@ private:
 
 
 };
+
+template <typename T>
+void safeVector<T>::push_back(const T& val){
+  std::lock_guard<std::mutex> lg(mutex);
+  v.push_back(val);
+}
+
+template <typename T>
+T& safeVector<T>::operator[](size_t index) {
+  std::lock_guard<std::mutex> lg(mutex);
+  return v[index];
+}
+template <typename T>
+
+const T& safeVector<T>::operator[](size_t index) const {
+  std::lock_guard<std::mutex> lg(mutex);
+  return v[index];
+}
+
+template <typename T>
+size_t safeVector<T>::size(){
+  std::lock_guard<std::mutex> lg(mutex);
+  return v.size();
+}
+
 
 #endif
