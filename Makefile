@@ -4,19 +4,21 @@
 # @Project: Async-Web-Communicator
 # @Filename: Makefile
 # @Last modified by:   miszo97
-# @Last modified time: March 20, 2018 6:36 PM
+# @Last modified time: March 20, 2018 8:24 PM
 
 BOOST_DIR_INC := -I/Users/miszo97/Documents/Programming/boost_1_66_0
 COMPILER := g++
 WARNINGS := -Wall
 STD := -std=c++14
+PATH_TO_LIBS := -L/Users/miszo97/Documents/Programming/Other_stuff/boost_1_65_0/stage/lib
+LIBS := -lboost_system
 
 all: main.o AWC.o interface.o safeQueue.o safeVector.o
-		$(COMPILER) $(WARNINGS) $(BOOST_DIR_INC) main.o AWC.o interface.o safeVector.o safeQueue.o -o awc.exe
+		$(COMPILER) $(WARNINGS) $(BOOST_DIR_INC) $(PATH_TO_LIBS) $(LIBS) main.o AWC.o interface.o safeVector.o safeQueue.o -o awc.exe
 debug: main.o AWC.o interface.o safeQueue.o safeVector.o
-		$(COMPILER) -O3 $(WARNINGS) $(BOOST_DIR_INC) main.o AWC.o interface.o safeVector.o safeQueue.o -o awc.exe
+		$(COMPILER) -O3 $(WARNINGS) $(BOOST_DIR_INC) $(PATH_TO_LIBS) $(LIBS) main.o AWC.o interface.o safeVector.o safeQueue.o -o awc.exe
 release: main.o AWC.o interface.o safeQueue.o safeVector.o
-		$(COMPILER) -O1 $(WARNINGS) $(BOOST_DIR_INC) main.o AWC.o interface.o safeVector.o safeQueue.o -o awc.exe
+		$(COMPILER) -O1 $(WARNINGS) $(BOOST_DIR_INC) $(PATH_TO_LIBS) $(LIBS) main.o AWC.o interface.o safeVector.o safeQueue.o -o awc.exe
 
 main.o: src/main.cpp
 	$(COMPILER) $(STD) $(WARNINGS) -c $(BOOST_DIR_INC) src/main.cpp
