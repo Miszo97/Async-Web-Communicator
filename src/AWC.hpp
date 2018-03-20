@@ -5,7 +5,7 @@
  * @Project: Async-Web-Communicator
  * @Filename: AWC.hpp
  * @Last modified by:   miszo97
- * @Last modified time: March 19, 2018 12:23 AM
+ * @Last modified time: March 20, 2018 6:43 PM
  */
 
  #ifndef AWC_HPP
@@ -17,6 +17,7 @@
  class AWC{
 
  public:
+   AWC();
    void runServer();
    void runClient();
    void start(const char*);

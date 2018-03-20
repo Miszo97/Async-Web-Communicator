@@ -5,11 +5,13 @@
  * @Project: Async-Web-Communicator
  * @Filename: interface.cpp
  * @Last modified by:   miszo97
- * @Last modified time: March 19, 2018 2:51 AM
+ * @Last modified time: March 20, 2018 6:47 PM
  */
 
  #include "interface.hpp"
  #include <iostream>
+ #include "safeQueue.hpp"
+ #include "safeVector.hpp"
  #include <thread>
  #include <chrono>
 
@@ -23,3 +25,8 @@
 
    }
  }
+
+ Interface::Interface(safeVector<std::string>& _incoming_data, safeQueue<std::string>& _outgoing_data) :
+ incoming_data(_incoming_data),
+ outgoing_data(_outgoing_data)
+ {}

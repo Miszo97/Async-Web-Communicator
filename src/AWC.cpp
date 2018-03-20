@@ -5,7 +5,7 @@
  * @Project: Async-Web-Communicator
  * @Filename: AWC.cpp
  * @Last modified by:   miszo97
- * @Last modified time: March 19, 2018 2:51 AM
+ * @Last modified time: March 20, 2018 6:44 PM
  */
 
  #include "AWC.hpp"
@@ -14,6 +14,9 @@
  #include <chrono>
  #include <thread>
  #include <boost/bind.hpp>
+
+ AWC::AWC() : interface(incoming_data, outgoing_data)
+ {}
 
  void AWC::runServer() {
 

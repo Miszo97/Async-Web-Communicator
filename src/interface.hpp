@@ -5,7 +5,7 @@
  * @Project: Async-Web-Communicator
  * @Filename: interface.hpp
  * @Last modified by:   miszo97
- * @Last modified time: March 19, 2018 2:18 AM
+ * @Last modified time: March 20, 2018 6:45 PM
  */
 
 
@@ -15,15 +15,22 @@
 
 #include <string>
 #include <vector>
+#include "safeQueue.hpp"
+#include "safeVector.hpp"
 
 class Interface{
 
 public:
+  Interface(safeVector<std::string>&, safeQueue<std::string>&);
+
 void display();
 void start();
 
 private:
 std::vector<std::string> messages_to_display;
+safeVector<std::string>& incoming_data;
+safeQueue<std::string>& outgoing_data;
+
 
 
 };
