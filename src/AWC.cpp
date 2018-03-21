@@ -5,7 +5,7 @@
  * @Project: Async-Web-Communicator
  * @Filename: AWC.cpp
  * @Last modified by:   miszo97
- * @Last modified time: March 20, 2018 8:50 PM
+ * @Last modified time: March 21, 2018 8:55 PM
  */
 
  #include "AWC.hpp"
@@ -15,6 +15,7 @@
  #include <thread>
  #include <boost/bind.hpp>
  #include <boost/asio.hpp>
+ #include "connection.hpp"
 
   using namespace boost::asio;
 
@@ -39,7 +40,10 @@
 
  }
  void AWC::runClient() {
-
+   io_context io;
+   ip::tcp::endpoint ep(ip::address::from_string("127.0.0.1"), 4777);
+   std::shared_ptr<connection> new_connection = connection::start(ep, io);
+   io.run();
    for(;;){
    std::cout << "running client" << '\n';
    std::this_thread::sleep_for(std::chrono::seconds(1));
@@ -50,7 +54,12 @@
  void AWC::start(const char * mode) {
 
    std::thread interface_thread(boost::bind(&Interface::start, &interface));
-   this->runServer();
+   if (std::string(mode) == "server") {
+     this->runServer();
+   } else if(std::string(mode) == "client") {
+     this->runClient();
+   }
+
    interface_thread.join();
 
 
