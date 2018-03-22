@@ -5,7 +5,7 @@
  * @Project: Async-Web-Communicator
  * @Filename: AWC.cpp
  * @Last modified by:   miszo97
- * @Last modified time: March 21, 2018 8:55 PM
+ * @Last modified time: March 22, 2018 10:10 PM
  */
 
  #include "AWC.hpp"
@@ -31,7 +31,10 @@
    auto accept_handler = [](const boost::system::error_code& ec)
    {if(!ec) std::cout << "Connection established!" << '\n'; else std::cout << "Connection failed!" << '\n';};
    acc.async_accept(socket, accept_handler);
+
    io.run();
+   while(1)
+   socket.write_some(buffer("abs", 4));
 
    for(;;){
    std::cout << "running server" << '\n';
@@ -42,7 +45,7 @@
  void AWC::runClient() {
    io_context io;
    ip::tcp::endpoint ep(ip::address::from_string("127.0.0.1"), 4777);
-   std::shared_ptr<connection> new_connection = connection::start(ep, io);
+   std::shared_ptr<connection> new_connection = connection::start(ep, io, outgoing_data, incoming_data);
    io.run();
    for(;;){
    std::cout << "running client" << '\n';

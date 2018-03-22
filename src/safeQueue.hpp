@@ -5,7 +5,7 @@
  * @Project: Async-Web-Communicator
  * @Filename: safeQueue.hpp
  * @Last modified by:   miszo97
- * @Last modified time: March 20, 2018 6:25 PM
+ * @Last modified time: March 22, 2018 4:48 PM
  */
 
  #ifndef SAFE_QUEUE_HPP
@@ -20,6 +20,8 @@ template <typename T>
 class safeQueue{
 public:
   void push(const T&);
+  size_t size();
+
 
 
 private:
@@ -35,6 +37,13 @@ void safeQueue<T>::push(const T& val){
   std::lock_guard<std::mutex> lg(mutex);
   q.push(val);
 }
+
+template <typename T>
+size_t safeQueue<T>::size(){
+  std::lock_guard<std::mutex> lg(mutex);
+  return q.size();
+}
+
 
 
 #endif
