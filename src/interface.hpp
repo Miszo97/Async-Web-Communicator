@@ -21,7 +21,7 @@
 class Interface{
 
 public:
-  Interface(safeVector<std::string>&, safeQueue<std::string>&);
+  Interface(safeVector<std::string>&, safeQueue<std::string>&, safeVector<std::string>&);
 
 void display();
 void start();
@@ -29,6 +29,7 @@ void start();
 private:
 std::vector<std::string> messages_to_display;
 safeVector<std::string>& incoming_data;
+safeVector<std::string>& exchange_data;
 safeQueue<std::string>& outgoing_data;
 
 

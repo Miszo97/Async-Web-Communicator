@@ -21,6 +21,7 @@ class safeQueue{
 public:
   void push(const T&);
   size_t size();
+  T pop();
 
 
 
@@ -36,6 +37,15 @@ template <typename T>
 void safeQueue<T>::push(const T& val){
   std::lock_guard<std::mutex> lg(mutex);
   q.push(val);
+}
+
+template <typename T>
+T safeQueue<T>::pop()
+{
+  std::lock_guard<std::mutex> lg(mutex);
+  T front = std::move(q.front());
+  q.pop();
+  return front;
 }
 
 template <typename T>

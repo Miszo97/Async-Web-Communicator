@@ -5,7 +5,7 @@
  * @Project: Async-Web-Communicator
  * @Filename: connection.cpp
  * @Last modified by:   miszo97
- * @Last modified time: March 22, 2018 9:53 PM
+ * @Last modified time: March 23, 2018 10:48 PM
  */
 
 #include "connection.hpp"
@@ -58,6 +58,9 @@ connection::start(ip::tcp::endpoint ep, io_context& _io, safeQueue<std::string>&
   _new->start(ep);
   return _new;
 
+}
+ip::tcp::socket& connection::sock(){
+  return socket;
 }
 
 void connection::stop() {}

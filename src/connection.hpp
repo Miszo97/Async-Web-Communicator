@@ -5,8 +5,10 @@
  * @Project: Async-Web-Communicator
  * @Filename: connection.h
  * @Last modified by:   miszo97
- * @Last modified time: March 22, 2018 9:35 PM
+ * @Last modified time: March 23, 2018 10:29 PM
  */
+ #ifndef CONNECTION_HPP
+ #define CONNECTION_HPP
 
  #include <iostream>
  #include <boost/asio.hpp>
@@ -26,6 +28,8 @@
    void do_write();
    void do_read();
    void wait_for_write();
+   ip::tcp::socket& sock();
+
 
 
  private:
@@ -39,3 +43,5 @@
    safeVector<std::string>& incoming_data;
 
  };
+
+ #endif

@@ -4,7 +4,7 @@
 # @Project: Async-Web-Communicator
 # @Filename: Makefile
 # @Last modified by:   miszo97
-# @Last modified time: March 21, 2018 8:47 PM
+# @Last modified time: March 23, 2018 10:11 PM
 
 BOOST_DIR_INC := -I/Users/miszo97/Documents/Programming/boost_1_66_0
 COMPILER := g++
@@ -13,12 +13,12 @@ STD := -std=c++14
 PATH_TO_LIBS := -L/Users/miszo97/Documents/Programming/Other_stuff/boost_1_65_0/stage/lib
 LIBS := -lboost_system
 
-all: main.o AWC.o interface.o safeQueue.o safeVector.o connection.o
-		$(COMPILER) $(WARNINGS) $(BOOST_DIR_INC) $(PATH_TO_LIBS) $(LIBS) main.o AWC.o interface.o safeVector.o safeQueue.o connection.o -o awc.exe
-debug: main.o AWC.o interface.o safeQueue.o safeVector.o connection.o
-		$(COMPILER) -O3 $(WARNINGS) $(BOOST_DIR_INC) $(PATH_TO_LIBS) $(LIBS) main.o AWC.o interface.o safeVector.o safeQueue.o connection.o -o awc.exe
-release: main.o AWC.o interface.o safeQueue.o safeVector.o connection.o
-		$(COMPILER) -O1 $(WARNINGS) $(BOOST_DIR_INC) $(PATH_TO_LIBS) $(LIBS) main.o AWC.o interface.o safeVector.o safeQueue.o connection.o -o awc.exe
+all: main.o AWC.o interface.o safeQueue.o safeVector.o connection.o connection_server_side.o connection_client_side.o
+		$(COMPILER) $(WARNINGS) $(BOOST_DIR_INC) $(PATH_TO_LIBS) $(LIBS) main.o AWC.o interface.o safeVector.o safeQueue.o connection.o connection_server_side.o connection_client_side.o -o awc.exe
+debug: main.o AWC.o interface.o safeQueue.o safeVector.o connection.o connection_server_side.o connection_client_side.o
+		$(COMPILER) -O3 $(WARNINGS) $(BOOST_DIR_INC) $(PATH_TO_LIBS) $(LIBS) main.o AWC.o interface.o safeVector.o safeQueue.o connection.o connection_server_side.o connection_client_side.o -o awc.exe
+release: main.o AWC.o interface.o safeQueue.o safeVector.o connection.o connection_server_side.o connection_client_side.o
+		$(COMPILER) -O1 $(WARNINGS) $(BOOST_DIR_INC) $(PATH_TO_LIBS) $(LIBS) main.o AWC.o interface.o safeVector.o safeQueue.o connection.o connection_server_side.o connection_client_side.o -o awc.exe
 
 main.o: src/main.cpp
 	$(COMPILER) $(STD) $(WARNINGS) -c $(BOOST_DIR_INC) src/main.cpp
@@ -32,6 +32,10 @@ safeQueue.o: src/safeQueue.cpp
 	$(COMPILER) $(STD) $(WARNINGS) -c $(BOOST_DIR_INC) src/safeQueue.cpp
 connection.o: src/connection.cpp
 	$(COMPILER) $(STD) $(WARNINGS) -c $(BOOST_DIR_INC) src/connection.cpp
+connection_server_side.o: src/connection_server_side.cpp
+	$(COMPILER) $(STD) $(WARNINGS) -c $(BOOST_DIR_INC) src/connection_server_side.cpp
+connection_client_side.o: src/connection_client_side.cpp
+	$(COMPILER) $(STD) $(WARNINGS) -c $(BOOST_DIR_INC) src/connection_client_side.cpp
 
 
 #tests

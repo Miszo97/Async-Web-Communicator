@@ -5,7 +5,7 @@
  * @Project: Async-Web-Communicator
  * @Filename: AWC.hpp
  * @Last modified by:   miszo97
- * @Last modified time: March 20, 2018 6:43 PM
+ * @Last modified time: March 23, 2018 6:06 PM
  */
 
  #ifndef AWC_HPP
@@ -23,9 +23,11 @@
    void start(const char*);
 
  private:
+   safeVector<std::string> exchange_data; //used by server only
    safeQueue<std::string> outgoing_data;
    safeVector<std::string> incoming_data;
    Interface interface;
+   std::string peer_name;
 
 
 
