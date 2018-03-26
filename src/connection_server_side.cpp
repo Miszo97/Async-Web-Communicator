@@ -32,7 +32,7 @@ void connection_server_side::start() {
 
 bool connection_server_side::is_the_new_message_the_same_that_received()
 {
-  auto candidate = exchange_data[written_messages];
+  auto candidate = exchange_data[new_message_index];
   auto sender = candidate.substr(0, candidate.find_first_of("|"));
   std::cout << sender << std::endl;
 
@@ -50,13 +50,13 @@ void connection_server_side::wait_for_write()
 #endif
   std::this_thread::sleep_for(std::chrono::seconds(1));
 
-  if (exchange_data.size() <= written_messages)
+  if (exchange_data.size() <= new_message_index)
   {
     io.post([this]() { this->wait_for_write(); });
   }
   else if(is_the_new_message_the_same_that_received())
   {
-    written_messages++;
+    new_message_index++;
     io.post([this]() { this->wait_for_write(); });
   } else
   {
@@ -81,7 +81,7 @@ void connection_server_side::do_write() {
 
     #ifdef _cerr_on
     std::cerr << "on_read execution" << '\n';
-    std::cout << written_messages << " () " << exchange_data.size() << '\n';
+    std::cout << new_message_index << " () " << exchange_data.size() << '\n';
     std::cerr << "do_write() execution" << '\n';
     #endif
 
@@ -93,13 +93,13 @@ void connection_server_side::do_write() {
       #endif
       assert(!ec);
       if(!ec)     
-      written_messages++;
+      new_message_index++;
 
       
       wait_for_write();
     };
 
-    auto last = exchange_data[written_messages];
+    auto last = exchange_data[new_message_index];
     std::strcpy(write , last.data());
     async_write(socket, buffer(write, max_size), on_write);
 

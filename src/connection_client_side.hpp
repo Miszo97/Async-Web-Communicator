@@ -37,7 +37,7 @@
    char write[max_size];
    char read[max_size];
    bool started;
-   int written_messages = 0;
+   int new_message_index = 0;
    safeQueue<std::string>& outgoing_data;
    safeVector<std::string>& incoming_data;
 

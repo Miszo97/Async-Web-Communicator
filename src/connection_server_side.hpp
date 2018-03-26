@@ -40,7 +40,7 @@
    char write[max_size];
    char read[max_size];
    bool started;
-   int written_messages = 0;
+   int new_message_index = 0;
    std::string peer_name;
    safeQueue<std::string>& outgoing_data; //unused
    safeVector<std::string>& exchange_data;
