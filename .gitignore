@@ -2,3 +2,4 @@
 *.o
 .clang_complete
 .vscode/
+.DS_Store
