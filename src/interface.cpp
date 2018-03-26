@@ -1,11 +1,8 @@
-/**
- * @Author: Artur <miszo97>
- * @Date:   March 18, 2018 6:54 PM
- * @Email:  artsspe@gmail.com
- * @Project: Async-Web-Communicator
- * @Filename: interface.cpp
- * @Last modified by:   miszo97
- * @Last modified time: March 20, 2018 6:47 PM
+/*
+ * @Author: Artur 
+ * @Date: 2018-03-26 00:44:26 
+ * @Last Modified by: Artur
+ * @Last Modified time: 2018-03-26 00:50:00
  */
 
  #include "interface.hpp"
@@ -16,21 +13,12 @@
  #include <chrono>
 
  void Interface::start() {
+     std::thread t1(&Interface::getInput, this);
    while (1) {
-
-     for(;;){
-     //std::cout << "interface working" << '\n';
-     
-    // std::cout << incoming_data.size()<<"incoming_data.size()" << '\n';
-    // std::cout << exchange_data.size()<<"exchange_data.size()" << '\n';
-     if(exchange_data.size() != 0)
-     for(auto&& message : exchange_data)
-      std::cout<<"Interface displays –> "<< message << std::endl;
-
+     display();
      std::this_thread::sleep_for(std::chrono::seconds(3));
-     }
-
    }
+     t1.join();
  }
 
  Interface::Interface(safeVector<std::string>& _incoming_data, safeQueue<std::string>& _outgoing_data, safeVector<std::string>& _exchange_data) :
@@ -38,3 +26,18 @@
  outgoing_data(_outgoing_data),
  exchange_data(_exchange_data)
  {}
+
+ void Interface::getInput(){
+   while(1){
+   std::string input;
+   std::getline(std::cin, input);
+   std::cerr<<"pushing input"<<"\n";
+   exchange_data.push_back(input);
+   outgoing_data.push(input);
+   }
+ }
+ void Interface::display(){
+     if(exchange_data.size() != 0)
+     for(auto&& message : exchange_data)
+      std::cout<<"Interface displays –> "<< message << std::endl;
+ }

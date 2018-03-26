@@ -13,12 +13,12 @@ STD := -std=c++14
 PATH_TO_LIBS := -L/Users/miszo97/Documents/Programming/Other_stuff/boost_1_65_0/stage/lib
 LIBS := -lboost_system
 
-all: main.o AWC.o interface.o safeQueue.o safeVector.o connection.o connection_server_side.o connection_client_side.o
-		$(COMPILER) $(WARNINGS) $(BOOST_DIR_INC) $(PATH_TO_LIBS) $(LIBS) main.o AWC.o interface.o safeVector.o safeQueue.o connection.o connection_server_side.o connection_client_side.o -o awc.exe
-debug: main.o AWC.o interface.o safeQueue.o safeVector.o connection.o connection_server_side.o connection_client_side.o
-		$(COMPILER) -O3 $(WARNINGS) $(BOOST_DIR_INC) $(PATH_TO_LIBS) $(LIBS) main.o AWC.o interface.o safeVector.o safeQueue.o connection.o connection_server_side.o connection_client_side.o -o awc.exe
-release: main.o AWC.o interface.o safeQueue.o safeVector.o connection.o connection_server_side.o connection_client_side.o
-		$(COMPILER) -O1 $(WARNINGS) $(BOOST_DIR_INC) $(PATH_TO_LIBS) $(LIBS) main.o AWC.o interface.o safeVector.o safeQueue.o connection.o connection_server_side.o connection_client_side.o -o awc.exe
+all: main.o AWC.o server_interface.o client_interface.o safeQueue.o safeVector.o connection.o connection_server_side.o connection_client_side.o
+		$(COMPILER) $(WARNINGS) $(BOOST_DIR_INC) $(PATH_TO_LIBS) $(LIBS) main.o AWC.o server_interface.o client_interface.o safeVector.o safeQueue.o connection.o connection_server_side.o connection_client_side.o -o awc.exe
+debug: main.o AWC.o server_interface.o client_interface.o safeQueue.o safeVector.o connection.o connection_server_side.o connection_client_side.o
+		$(COMPILER) -g -O3 $(WARNINGS) $(BOOST_DIR_INC) $(PATH_TO_LIBS) $(LIBS) main.o AWC.o server_interface.o client_interface.o safeVector.o safeQueue.o connection.o connection_server_side.o connection_client_side.o -o awc.exe
+release: main.o AWC.o server_interface.o client_interface.o safeQueue.o safeVector.o connection.o connection_server_side.o connection_client_side.o
+		$(COMPILER) -O1 $(WARNINGS) $(BOOST_DIR_INC) $(PATH_TO_LIBS) $(LIBS) main.o AWC.o server_interface.o client_interface.o safeVector.o safeQueue.o connection.o connection_server_side.o connection_client_side.o -o awc.exe
 
 main.o: src/main.cpp
 	$(COMPILER) $(STD) $(WARNINGS) -c $(BOOST_DIR_INC) src/main.cpp
@@ -26,6 +26,10 @@ AWC.o: src/AWC.cpp
 	$(COMPILER) $(STD) $(WARNINGS) -c $(BOOST_DIR_INC) src/AWC.cpp
 interface.o: src/interface.cpp
 	$(COMPILER) $(STD) $(WARNINGS) -c $(BOOST_DIR_INC) src/interface.cpp
+client_interface.o: src/client_interface.cpp
+	$(COMPILER) $(STD) $(WARNINGS) -c $(BOOST_DIR_INC) src/client_interface.cpp
+server_interface.o: src/server_interface.cpp
+	$(COMPILER) $(STD) $(WARNINGS) -c $(BOOST_DIR_INC) src/server_interface.cpp
 safeVector.o: src/safeVector.cpp
 	$(COMPILER) $(STD) $(WARNINGS) -c $(BOOST_DIR_INC) src/safeVector.cpp
 safeQueue.o: src/safeQueue.cpp

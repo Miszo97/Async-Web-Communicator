@@ -28,6 +28,7 @@
    void do_write();
    void do_read();
    void wait_for_write();
+   bool is_the_new_message_the_same_that_received();
    ip::tcp::socket& sock();
 
 

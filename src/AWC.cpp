@@ -20,7 +20,8 @@
 
   using namespace boost::asio;
 
- AWC::AWC() : interface(incoming_data, outgoing_data, exchange_data)
+ AWC::AWC() : s_interface(exchange_data),
+ c_interface(incoming_data, outgoing_data)
  {}
 
  void AWC::runServer() {
@@ -48,9 +49,10 @@
      std::this_thread::sleep_for(std::chrono::seconds(1));
    }
  }
- void AWC::runClient() {
+ void AWC::runClient(const char* destination_ip) {
    io_context io;
-   ip::tcp::endpoint ep(ip::address::from_string("127.0.0.1"), 4777);
+   std::cout<<"Making connection to server with ip"<<destination_ip<<std::endl;
+   ip::tcp::endpoint ep(ip::address::from_string(destination_ip), 4777);
    std::shared_ptr<connection_client_side> new_connection = connection_client_side::start(ep, io, outgoing_data, incoming_data);
    io.run();
    for(;;){
@@ -61,16 +63,19 @@
 
  }
 
- void AWC::start(const char * mode) {
+ void AWC::start(char const* argv[]) {
 
-   std::thread interface_thread(boost::bind(&Interface::start, &interface));
+   const char* mode = argv[1];
    if (std::string(mode) == "server") {
+   std::thread server_interface_thread(boost::bind(&server_interface::start, &s_interface));
      this->runServer();
+   server_interface_thread.join();
    } else if(std::string(mode) == "client") {
-     this->runClient();
+   std::thread client_interface_thread(boost::bind(&client_interface::start, &c_interface));
+     this->runClient(argv[2]);
+   client_interface_thread.join();
    }
 
-   interface_thread.join();
 
 
  }

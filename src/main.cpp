@@ -14,13 +14,13 @@
 int main(int argc, char const *argv[]) {
   // let it start
 
-  if(argc != 2)
+  if(argc < 2)
   return 1;
 
   try{
 
     AWC awc;
-    awc.start(argv[1]);
+    awc.start(argv);
 
   } catch (...) {
 

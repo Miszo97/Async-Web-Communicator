@@ -1,12 +1,10 @@
-/**
- * @Author: Artur <miszo97>
- * @Date:   March 21, 2018 8:21 AM
- * @Email:  artsspe@gmail.com
- * @Project: Async-Web-Communicator
- * @Filename: connection_client_side_client_side.cpp
- * @Last modified by:   miszo97
- * @Last modified time: March 24, 2018 1:51 AM
+/*
+ * @Author: Artur 
+ * @Date: 2018-03-26 02:44:58 
+ * @Last Modified by:   Artur 
+ * @Last Modified time: 2018-03-26 02:44:58 
  */
+
 
 #include "safeQueue.hpp"
 #include "safeVector.hpp"
@@ -19,10 +17,6 @@ socket(_io),
 incoming_data(_incoming_data),
 outgoing_data(_outgoing_data)
 {
-  outgoing_data.push("Hi I'am your client!");
-outgoing_data.push("Hi, please sleep with me!");
-outgoing_data.push("Hi, please sleep with me my prince!");
-  outgoing_data.push("Hi I'am your client my prince!");
 }
 
 
@@ -44,7 +38,10 @@ void connection_client_side::start(ip::tcp::endpoint ep) {
 
 }
 void connection_client_side::wait_for_write(){
+  
 
+    //std::cerr << "wait_for_write() execution" << '\n';
+     std::this_thread::sleep_for(std::chrono::seconds(1)); 
   if(outgoing_data.size() == 0){
     //std::cerr << "outgoing_data.size() == 0" << '\n';
     io.post([this](){this->wait_for_write();});
@@ -96,7 +93,7 @@ void connection_client_side::do_read() {
      if(!ec || ec != boost::asio::error::eof)
      incoming_data.push_back(std::string(read));
      do_read();
-  };
+  }; 
 
   async_read(socket, buffer(read, max_size), on_read);
 

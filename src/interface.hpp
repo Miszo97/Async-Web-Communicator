@@ -25,6 +25,7 @@ public:
 
 void display();
 void start();
+void getInput();
 
 private:
 std::vector<std::string> messages_to_display;

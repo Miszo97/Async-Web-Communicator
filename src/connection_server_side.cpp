@@ -1,17 +1,15 @@
-/**
- * @Author: Artur <miszo97>
- * @Date:   March 21, 2018 8:21 AM
- * @Email:  artsspe@gmail.com
- * @Project: Async-Web-Communicator
- * @Filename: connection_server_side.cpp
- * @Last modified by:   miszo97
- * @Last modified time: March 24, 2018 2:17 AM
+/*
+ * @Author: Artur 
+ * @Date: 2018-03-26 02:46:23 
+ * @Last Modified by: Artur
+ * @Last Modified time: 2018-03-26 02:54:21
  */
+
 
 #include "connection_server_side.hpp"
 #include "safeQueue.hpp"
 #include "safeVector.hpp"
-#define _cerr_on
+// #define _cerr_on
 
 connection_server_side::connection_server_side(
     io_context &_io, safeQueue<std::string> &_outgoing_data,
@@ -31,19 +29,39 @@ void connection_server_side::start() {
       do_read();
   
 }
-void connection_server_side::wait_for_write(){
 
-      #ifdef _cerr_on
-      std::cerr<<"cconnection_server_side::wait_for_write()"<<"\n";
-      #endif
-std::this_thread::sleep_for(std::chrono::seconds(1));
-  if(exchange_data.size() <= written_messages){
-    //std::cerr << "outgoing_data.size() == 0" << '\n';
-    io.post([this](){this->wait_for_write();});
+bool connection_server_side::is_the_new_message_the_same_that_received()
+{
+  auto candidate = exchange_data[written_messages];
+  auto sender = candidate.substr(0, candidate.find_first_of("|"));
+  std::cout << sender << std::endl;
+
+  if (sender == peer_name)
+    return true;
+  return false;
+};
+
+void connection_server_side::wait_for_write()
+{
+
+#ifdef _cerr_on
+  std::cerr << "cconnection_server_side::wait_for_write()"
+            << "\n";
+#endif
+  std::this_thread::sleep_for(std::chrono::seconds(1));
+
+  if (exchange_data.size() <= written_messages)
+  {
+    io.post([this]() { this->wait_for_write(); });
   }
-  else
-      do_write();
-
+  else if(is_the_new_message_the_same_that_received())
+  {
+    written_messages++;
+    io.post([this]() { this->wait_for_write(); });
+  } else
+  {
+    do_write();
+  }
 }
 std::shared_ptr<connection_server_side>
 connection_server_side::start(ip::tcp::endpoint ep, io_context& _io, safeQueue<std::string>& outgoing_data, safeVector<std::string>& exchange_data, std::string peer_name) {
@@ -81,8 +99,8 @@ void connection_server_side::do_write() {
       wait_for_write();
     };
 
-   // auto last = exchange_data[written_messages];
-    std::strcpy(write , "Something!");
+    auto last = exchange_data[written_messages];
+    std::strcpy(write , last.data());
     async_write(socket, buffer(write, max_size), on_write);
 
 }

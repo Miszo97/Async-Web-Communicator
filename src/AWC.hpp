@@ -12,21 +12,23 @@
  #define AWC_HPP
  #include "safeQueue.hpp"
  #include "safeVector.hpp"
- #include "interface.hpp"
+ #include "client_interface.hpp"
+ #include "server_interface.hpp"
 
  class AWC{
 
  public:
    AWC();
    void runServer();
-   void runClient();
-   void start(const char*);
+   void runClient(const char*);
+   void start(char const* argv[]);
 
  private:
    safeVector<std::string> exchange_data; //used by server only
    safeQueue<std::string> outgoing_data;
    safeVector<std::string> incoming_data;
-   Interface interface;
+   client_interface c_interface;
+   server_interface s_interface;
    std::string peer_name;
 
 

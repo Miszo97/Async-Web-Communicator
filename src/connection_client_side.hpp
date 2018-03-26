@@ -1,12 +1,10 @@
-/**
- * @Author: Artur <miszo97>
- * @Date:   March 21, 2018 8:20 AM
- * @Email:  artsspe@gmail.com
- * @Project: Async-Web-Communicator
- * @Filename: connection_client_side.h
- * @Last modified by:   miszo97
- * @Last modified time: March 24, 2018 2:09 AM
+/*
+ * @Author: Artur 
+ * @Date: 2018-03-26 02:46:11 
+ * @Last Modified by:   Artur 
+ * @Last Modified time: 2018-03-26 02:46:11 
  */
+
  #ifndef connection_client_side_HPP
  #define connection_client_side_HPP
 
