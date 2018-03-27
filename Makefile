@@ -1,27 +1,33 @@
-# @Author: Artur <miszo97>
-# @Date:   March 17, 2018 5:46 AM
-# @Email:  artsspe@gmail.com
-# @Project: Async-Web-Communicator
-# @Filename: Makefile
-# @Last modified by:   miszo97
-# @Last modified time: March 23, 2018 10:11 PM
+# /*
+#  * @Author: Artur 
+#  * @Date: 2018-03-28 00:05:46 
+#  * @Last Modified by:   Artur 
+#  * @Last Modified time: 2018-03-28 00:05:46 
+#  */
+
 
 BOOST_DIR_INC := -I/Users/miszo97/Documents/Programming/boost_1_66_0
 COMPILER := g++
 WARNINGS := -Wall
 STD := -std=c++14
 PATH_TO_LIBS := -L/Users/miszo97/Documents/Programming/Other_stuff/boost_1_65_0/stage/lib
-LIBS := -lboost_system
+LIBS := -lboost_system -lncurses
 
-all: main.o AWC.o server_interface.o client_interface.o safeQueue.o safeVector.o connection.o connection_server_side.o connection_client_side.o
-		$(COMPILER) $(WARNINGS) $(BOOST_DIR_INC) $(PATH_TO_LIBS) $(LIBS) main.o AWC.o server_interface.o client_interface.o safeVector.o safeQueue.o connection.o connection_server_side.o connection_client_side.o -o awc.exe
-debug: main.o AWC.o server_interface.o client_interface.o safeQueue.o safeVector.o connection.o connection_server_side.o connection_client_side.o
-		$(COMPILER) -g -O3 $(WARNINGS) $(BOOST_DIR_INC) $(PATH_TO_LIBS) $(LIBS) main.o AWC.o server_interface.o client_interface.o safeVector.o safeQueue.o connection.o connection_server_side.o connection_client_side.o -o awc.exe
-release: main.o AWC.o server_interface.o client_interface.o safeQueue.o safeVector.o connection.o connection_server_side.o connection_client_side.o
-		$(COMPILER) -O1 $(WARNINGS) $(BOOST_DIR_INC) $(PATH_TO_LIBS) $(LIBS) main.o AWC.o server_interface.o client_interface.o safeVector.o safeQueue.o connection.o connection_server_side.o connection_client_side.o -o awc.exe
+all: main.o messages_section.o write_section.o section.o AWC.o server_interface.o client_interface.o safeQueue.o safeVector.o connection.o connection_server_side.o connection_client_side.o
+		$(COMPILER) $(WARNINGS) $(BOOST_DIR_INC) $(PATH_TO_LIBS) $(LIBS) main.o messages_section.o write_section.o section.o AWC.o server_interface.o client_interface.o safeVector.o safeQueue.o connection.o connection_server_side.o connection_client_side.o -o awc.exe
+debug: main.o messages_section.o write_section.o section.o AWC.o server_interface.o client_interface.o safeQueue.o safeVector.o connection.o connection_server_side.o connection_client_side.o
+		$(COMPILER) -g -O3 $(WARNINGS) $(BOOST_DIR_INC) $(PATH_TO_LIBS) $(LIBS) main.o messages_section.o write_section.o section.o AWC.o server_interface.o client_interface.o safeVector.o safeQueue.o connection.o connection_server_side.o connection_client_side.o -o awc.exe
+release: main.o messages_section.o write_section.o section.o AWC.o server_interface.o client_interface.o safeQueue.o safeVector.o connection.o connection_server_side.o connection_client_side.o
+		$(COMPILER) -O1 $(WARNINGS) $(BOOST_DIR_INC) $(PATH_TO_LIBS) $(LIBS) main.o messages_section.o write_section.o section.o AWC.o server_interface.o client_interface.o safeVector.o safeQueue.o connection.o connection_server_side.o connection_client_side.o -o awc.exe
 
 main.o: src/main.cpp
 	$(COMPILER) $(STD) $(WARNINGS) -c $(BOOST_DIR_INC) src/main.cpp
+section.o: src/section.cpp
+	$(COMPILER) $(STD) $(WARNINGS) -c $(BOOST_DIR_INC) src/section.cpp
+messages_section.o: src/messages_section.cpp
+	$(COMPILER) $(STD) $(WARNINGS) -c $(BOOST_DIR_INC) src/messages_section.cpp
+write_section.o: src/write_section.cpp
+	$(COMPILER) $(STD) $(WARNINGS) -c $(BOOST_DIR_INC) src/write_section.cpp
 AWC.o: src/AWC.cpp
 	$(COMPILER) $(STD) $(WARNINGS) -c $(BOOST_DIR_INC) src/AWC.cpp
 interface.o: src/interface.cpp
