@@ -33,8 +33,7 @@ void connection_server_side::start() {
 bool connection_server_side::is_the_new_message_the_same_that_received()
 {
   auto candidate = exchange_data[new_message_index];
-  auto sender = candidate.substr(0, candidate.find_first_of("|"));
-  std::cout << sender << std::endl;
+  auto sender = candidate.substr(0, candidate.find_first_of(":"));
 
   if (sender == peer_name)
     return true;
@@ -48,7 +47,7 @@ void connection_server_side::wait_for_write()
   std::cerr << "cconnection_server_side::wait_for_write()"
             << "\n";
 #endif
-  std::this_thread::sleep_for(std::chrono::seconds(1));
+  //std::this_thread::sleep_for(std::chrono::seconds(1));
 
   if (exchange_data.size() <= new_message_index)
   {
@@ -77,11 +76,11 @@ ip::tcp::socket& connection_server_side::sock(){
 void connection_server_side::stop() {}
 void connection_server_side::do_write() {
   
-  std::this_thread::sleep_for(std::chrono::seconds(1));
+  //std::this_thread::sleep_for(std::chrono::seconds(1));
 
     #ifdef _cerr_on
     std::cerr << "on_read execution" << '\n';
-    std::cout << new_message_index << " () " << exchange_data.size() << '\n';
+    //std::cout << new_message_index << " () " << exchange_data.size() << '\n';
     std::cerr << "do_write() execution" << '\n';
     #endif
 
@@ -123,7 +122,7 @@ void connection_server_side::do_read() {
 
     assert(!ec);
      if(!ec)
-     exchange_data.push_back(std::string(peer_name)+std::string("|")+std::string(read));
+     exchange_data.push_back(std::string(peer_name)+std::string(": ")+std::string(read));
      do_read();
   };
 

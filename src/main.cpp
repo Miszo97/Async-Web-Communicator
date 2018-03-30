@@ -10,12 +10,20 @@
 
  #include "AWC.hpp"
  #include <iostream>
+ #include "free_functions.hpp"
 
 int main(int argc, char const *argv[]) {
   // let it start
 
-  if(argc < 2)
-  return 1;
+switch (argc)
+{
+  case 1 : printUsage(); exit(1);
+  case 2 : if(std::strcmp("server",argv[1])) {printUsage(); exit(1);} break;
+  case 3 : if(std::strcmp("client",argv[1])) {printUsage(); exit(1);} break;
+  default:
+  printUsage(); exit(1);
+  break;
+}
 
   try{
 

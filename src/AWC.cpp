@@ -14,6 +14,7 @@
  #include <chrono>
  #include <thread>
  #include <boost/bind.hpp>
+ 
  #include <boost/asio.hpp>
  #include "connection_client_side.hpp"
  #include "connection_server_side.hpp"
@@ -33,11 +34,11 @@
    std::shared_ptr<connection_server_side> new_connection = connection_server_side::start(ep, io, outgoing_data, exchange_data, "client");
    auto accept_handler = [new_connection](const boost::system::error_code &ec) {
      if (!ec){
-       std::cout << "Connection established!" << '\n';
+       //std::cout << "Connection established!" << '\n';
        new_connection->start();
      }
-     else
-       std::cout << "Connection failed!" << '\n';
+     else;
+       //std::cout << "Connection failed!" << '\n';
    };
    acc.async_accept(new_connection->sock(), accept_handler);
 
@@ -45,18 +46,18 @@
 
    for (;;)
    {
-     std::cout << "running server" << '\n';
+     //std::cout << "running server" << '\n';
      std::this_thread::sleep_for(std::chrono::seconds(1));
    }
  }
  void AWC::runClient(const char* destination_ip) {
    io_context io;
-   std::cout<<"Making connection to server with ip"<<destination_ip<<std::endl;
+   //std::cout<<"Making connection to server with ip"<<destination_ip<<std::endl;
    ip::tcp::endpoint ep(ip::address::from_string(destination_ip), 4777);
    std::shared_ptr<connection_client_side> new_connection = connection_client_side::start(ep, io, outgoing_data, incoming_data);
    io.run();
    for(;;){
-   std::cout << "running client" << '\n';
+   //std::cout << "running client" << '\n';
    std::this_thread::sleep_for(std::chrono::seconds(1));
    
    }

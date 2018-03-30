@@ -17,6 +17,8 @@
 #include <vector>
 #include "safeQueue.hpp"
 #include "safeVector.hpp"
+#include "messages_section.hpp"
+#include "write_section.hpp"
 
 class server_interface{
 
@@ -30,7 +32,9 @@ void getInput();
 private:
 std::vector<std::string> messages_to_display;
 safeVector<std::string>& exchange_data;
-
+Write_section write_section;
+Messages_section messages_section;
+size_t displayed_messagess_so_far;
 
 
 };

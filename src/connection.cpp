@@ -29,11 +29,11 @@ void connection::start(ip::tcp::endpoint ep) {
   (const boost::system::error_code& ec)
   {
     if (!ec) {
-      std::cout << "Connected!" << '\n';
+      //std::cout << "Connected!" << '\n';
       wait_for_write();
       do_read();
     } else
-      std::cout << "Not connected!" << '\n';
+      //std::cout << "Not connected!" << '\n';
 
    };
 
@@ -45,7 +45,7 @@ void connection::start(ip::tcp::endpoint ep) {
 void connection::wait_for_write(){
 
   if(outgoing_data.size() == 0){
-    std::cerr << "outgoing_data.size() == 0" << '\n';
+    //std::cerr << "outgoing_data.size() == 0" << '\n';
     //io.post([this](){this->wait_for_write();});
   }
   else
@@ -66,10 +66,10 @@ ip::tcp::socket& connection::sock(){
 void connection::stop() {}
 void connection::do_write() {
 
-    std::cerr << "do_write() execution" << '\n';
+    //std::cerr << "do_write() execution" << '\n';
     auto on_write = [this](const boost::system::error_code& ec, size_t bytes)
     {
-      std::cerr << "on_read execution" << '\n';
+      //std::cerr << "on_read execution" << '\n';
       assert(!ec);
       if(!ec)
       outgoing_data.push(std::string(write));
@@ -81,14 +81,14 @@ void connection::do_write() {
 }
 void connection::do_read() {
 
-  std::cerr << "do_read() execution" << '\n';
+  //std::cerr << "do_read() execution" << '\n';
   auto ptr_to_this = shared_from_this();
 
   auto on_read =
   [ptr_to_this, this]
   (const boost::system::error_code& ec, size_t bytes)
   {
-    std::cerr << "on_read execution" << '\n';
+    //std::cerr << "on_read execution" << '\n';
     assert(!ec);
      if(!ec)
      incoming_data.push_back(std::string(read));

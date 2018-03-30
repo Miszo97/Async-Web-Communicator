@@ -27,11 +27,11 @@ void connection_client_side::start(ip::tcp::endpoint ep) {
 
   auto on_connect = [ptr_to_this, this](const boost::system::error_code &ec) {
     if (!ec) {
-      std::cout << "Connected!" << '\n';
+      //std::cout << "Connected!" << '\n';
       wait_for_write();
       do_read();
-    } else
-      std::cout << "Not connected!" << '\n';
+    } else;
+      //std::cout << "Not connected!" << '\n';
   };
 
   socket.async_connect(ep, on_connect);
@@ -41,7 +41,7 @@ void connection_client_side::wait_for_write(){
   
 
     //std::cerr << "wait_for_write() execution" << '\n';
-     std::this_thread::sleep_for(std::chrono::seconds(1)); 
+     //std::this_thread::sleep_for(std::chrono::seconds(1)); 
   if(outgoing_data.size() == 0){
     //std::cerr << "outgoing_data.size() == 0" << '\n';
     io.post([this](){this->wait_for_write();});
@@ -63,10 +63,13 @@ ip::tcp::socket& connection_client_side::sock(){
 void connection_client_side::stop() {}
 void connection_client_side::do_write() {
 
+#ifdef DEBUG
     std::cerr << "do_write() execution" << '\n';
+#endif // DEBUG
+
     auto on_write = [this](const boost::system::error_code& ec, size_t bytes)
     {
-      std::cerr << "on_write execution, bytes: " <<bytes<< '\n';
+      //std::cerr << "on_write execution, bytes: " <<bytes<< '\n';
       assert(!ec);
       if(!ec)
       wait_for_write();
@@ -79,15 +82,15 @@ void connection_client_side::do_write() {
 }
 void connection_client_side::do_read() {
 
-  std::cerr << "do_read() execution" << '\n';
+  //std::cerr << "do_read() execution" << '\n';
   auto ptr_to_this = shared_from_this();
 
   auto on_read =
   [ptr_to_this, this]
   (const boost::system::error_code& ec, size_t bytes)
   {
-    std::cerr << "on_read execution" << '\n';
-    std::cerr << "Error code is "<<ec.message() << '\n';
+    //std::cerr << "on_read execution" << '\n';
+    //std::cerr << "Error code is "<<ec.message() << '\n';
 
     assert(!ec);
      if(!ec || ec != boost::asio::error::eof)

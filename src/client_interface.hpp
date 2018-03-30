@@ -17,6 +17,8 @@
 #include <vector>
 #include "safeQueue.hpp"
 #include "safeVector.hpp"
+#include "messages_section.hpp"
+#include "write_section.hpp"
 
 class client_interface{
 
@@ -31,6 +33,9 @@ private:
 std::vector<std::string> messages_to_display;
 safeVector<std::string>& incoming_data;
 safeQueue<std::string>& outgoing_data;
+Write_section write_section;
+Messages_section messages_section;
+size_t displayed_messagess_so_far;
 
 
 

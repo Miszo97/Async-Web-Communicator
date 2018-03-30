@@ -8,32 +8,35 @@
  * @Last modified time: March 23, 2018 6:06 PM
  */
 
- #ifndef AWC_HPP
- #define AWC_HPP
- #include "safeQueue.hpp"
- #include "safeVector.hpp"
- #include "client_interface.hpp"
- #include "server_interface.hpp"
+#ifndef AWC_HPP
+#define AWC_HPP
+#include "safeQueue.hpp"
+#include "safeVector.hpp"
+#include "client_interface.hpp"
+#include "server_interface.hpp"
 
- class AWC{
+class AWC
+{
 
- public:
-   AWC();
-   void runServer();
-   void runClient(const char*);
-   void start(char const* argv[]);
+public:
+  AWC();
+  void runServer();
+  void runClient(const char *);
+  void start(char const *argv[]);
 
- private:
-   safeVector<std::string> exchange_data; //used by server only
-   safeQueue<std::string> outgoing_data;
-   safeVector<std::string> incoming_data;
-   client_interface c_interface;
-   server_interface s_interface;
-   std::string peer_name;
+  enum class mode
+  {
+    server,
+    client
+  };
 
+private:
+  safeVector<std::string> exchange_data; //used by server only
+  safeQueue<std::string> outgoing_data;
+  safeVector<std::string> incoming_data;
+  client_interface c_interface;
+  server_interface s_interface;
+  std::string peer_name;
+};
 
-
-
- };
-
- #endif
+#endif
