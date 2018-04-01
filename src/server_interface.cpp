@@ -25,6 +25,7 @@ void server_interface::start()
   //creating messages and write sections
   messages_section.createWindow(rows * ratio, cols, 0, 0);
   write_section.createWindow(rows * (1 - ratio), cols, rows * ratio, 0);
+  curs_set(0);
 
   std::thread t1(&server_interface::getInput, this);
   while (1)
@@ -37,8 +38,6 @@ void server_interface::start()
 }
 
 server_interface::server_interface(safeVector<std::string> &_exchange_data) : exchange_data(_exchange_data),
-                                                                              messages_section(),
-                                                                              write_section(),
                                                                               displayed_messagess_so_far(0)
 {
 }
@@ -51,7 +50,7 @@ void server_interface::getInput()
   {
     WINDOW *write_sec = write_section.getWindow();
     mvwgetstr(write_sec, 1, 1, data_to_send);
-    exchange_data.push_back(data_to_send);
+    exchange_data.push_back(name+ ": " + data_to_send);
     wclear(write_sec);
     box(write_sec,1,1);
   }

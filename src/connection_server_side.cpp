@@ -119,10 +119,16 @@ void connection_server_side::do_read() {
     std::cerr << "on_read execution" << '\n';
     std::cerr << "Error code is: " << ec.message() << "\n";
     #endif
+    
 
     assert(!ec);
-     if(!ec)
-     exchange_data.push_back(std::string(peer_name)+std::string(": ")+std::string(read));
+     if(!ec){
+     std::string received = read;
+
+     peer_name = received.substr(0, received.find_first_of(":"));
+     exchange_data.push_back(received);
+     }
+
      do_read();
   };
 

@@ -29,12 +29,18 @@ void display();
 void start();
 void getInput();
 
+template<typename T>
+void setName(T&& _name){
+  name = std::forward<T>(_name);
+}
+
 private:
 std::vector<std::string> messages_to_display;
 safeVector<std::string>& exchange_data;
 Write_section write_section;
 Messages_section messages_section;
 size_t displayed_messagess_so_far;
+std::string name;
 
 
 };

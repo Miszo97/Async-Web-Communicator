@@ -18,8 +18,9 @@ int main(int argc, char const *argv[]) {
 switch (argc)
 {
   case 1 : printUsage(); exit(1);
-  case 2 : if(std::strcmp("server",argv[1])) {printUsage(); exit(1);} break;
-  case 3 : if(std::strcmp("client",argv[1])) {printUsage(); exit(1);} break;
+  case 2 : printUsage(); exit(1);
+  case 3 : if(std::strcmp("server",argv[1])) {printUsage(); exit(1);} break;
+  case 4 : if(std::strcmp("client",argv[1])) {printUsage(); exit(1);} break;
   default:
   printUsage(); exit(1);
   break;

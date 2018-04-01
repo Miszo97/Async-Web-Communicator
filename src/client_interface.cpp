@@ -25,6 +25,7 @@ void client_interface::start()
   //creating messages and write sections
   messages_section.createWindow(rows * ratio, cols, 0, 0);
   write_section.createWindow(rows * (1 - ratio), cols, rows * ratio, 0);
+  curs_set(0);
 
   std::thread t1(&client_interface::getInput, this);
   while (1)
@@ -48,12 +49,15 @@ void client_interface::getInput()
   {
     WINDOW *write_sec = write_section.getWindow();
     mvwgetstr(write_sec, 1, 2, data_to_send);
-    outgoing_data.push(data_to_send);
-    incoming_data.push_back(data_to_send);
+    outgoing_data.push(std::string(name)+": "+std::string(data_to_send));
+    incoming_data.push_back(std::string(name)+": "+std::string(data_to_send));
     wclear(write_sec);
     box(write_sec,1,1);
   }
 }
+
+
+
 void client_interface::display()
 {
  //Don't borrow if there is no any message.
@@ -71,7 +75,7 @@ void client_interface::display()
     it = incoming_data.begin();
 
   displayed_messagess_so_far = 0; //reset counter
-  int y_offset = 0;
+  int y_offset = 1;
 
   for (; it != incoming_data.end(); ++it)
   {
