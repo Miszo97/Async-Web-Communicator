@@ -2,7 +2,7 @@
  * @Author: Artur 
  * @Date: 2018-03-26 02:46:23 
  * @Last Modified by: Artur
- * @Last Modified time: 2018-03-26 02:54:21
+ * @Last Modified time: 2018-04-02 00:33:37
  */
 
 
@@ -24,6 +24,7 @@ void connection_server_side::start() {
       #ifdef _cerr_on
       std::cerr<<"connection_server_side::start"<<"\n";
       #endif
+      started =true;
 
       wait_for_write();
       do_read();

@@ -16,13 +16,13 @@
 
 void client_interface::start()
 {
-  int rows, cols;
+  int rows, cols; //of terminal
   initscr();
   refresh();
-  getmaxyx(stdscr, rows, cols); //terminal size
+
+  getmaxyx(stdscr, rows, cols); //getting terminal sizes
   double ratio = 0.75;          //ratio of section sizes
 
-  //creating messages and write sections
   messages_section.createWindow(rows * ratio, cols, 0, 0);
   write_section.createWindow(rows * (1 - ratio), cols, rows * ratio, 0);
   curs_set(0);
@@ -47,12 +47,22 @@ void client_interface::getInput()
   char data_to_send[512];
   while (1)
   {
+    
+    //get input from write section
     WINDOW *write_sec = write_section.getWindow();
     mvwgetstr(write_sec, 1, 2, data_to_send);
-    outgoing_data.push(std::string(name)+": "+std::string(data_to_send));
-    incoming_data.push_back(std::string(name)+": "+std::string(data_to_send));
+
+    //prepare message to sent
+    std::string message(std::string(my_name)+": "+std::string(data_to_send));
+
+    //put message
+    outgoing_data.push(message);
+    incoming_data.push_back(message);
+
+    //clear and redraw section
     wclear(write_sec);
     box(write_sec,1,1);
+
   }
 }
 
@@ -65,12 +75,12 @@ void client_interface::display()
     if (!incoming_data.size())
       return;
 
-  WINDOW *msg_sec_ptr = messages_section.getWindow();
+  WINDOW *msg_sec_win = messages_section.getWindow();
 
   std::vector<std::string>::iterator it;
 
   if (displayed_messagess_so_far >= messages_section.max_displayed)
-    it = std::prev(incoming_data.end(), messages_section.max_displayed); //start from -max_displayed preciding end.
+    it = std::prev(incoming_data.end(), messages_section.max_displayed); //start iterate from -max_displayed preciding end.
   else
     it = incoming_data.begin();
 
@@ -79,12 +89,13 @@ void client_interface::display()
 
   for (; it != incoming_data.end(); ++it)
   {
-    mvwprintw(msg_sec_ptr,y_offset, 1, "%s\n", it->data());
+    mvwprintw(msg_sec_win,y_offset, 1, "%s\n", it->data());
     ++displayed_messagess_so_far;
     y_offset++;
   }
 
-  wrefresh(msg_sec_ptr);
-  wclear(msg_sec_ptr);
-  box(msg_sec_ptr,1,1);
+  //draw, clear, redraw msg section
+  wrefresh(msg_sec_win);
+  wclear(msg_sec_win);
+  box(msg_sec_win,1,1);
 }

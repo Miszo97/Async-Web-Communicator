@@ -50,7 +50,13 @@ void server_interface::getInput()
   {
     WINDOW *write_sec = write_section.getWindow();
     mvwgetstr(write_sec, 1, 1, data_to_send);
-    exchange_data.push_back(name+ ": " + data_to_send);
+
+    //prepare message
+    std::string message(my_name+ ": " + data_to_send);
+
+    exchange_data.push_back(message);
+
+    //clear and redraw write_sec;
     wclear(write_sec);
     box(write_sec,1,1);
   }
@@ -76,6 +82,7 @@ void server_interface::display()
 
   for (; it != exchange_data.end(); ++it)
   {
+    
     mvwprintw(msg_sec_ptr,y_offset, 1, "%s\n", it->data());
     ++displayed_messagess_so_far;
     y_offset++;
