@@ -13,12 +13,17 @@ BOOST_DIR_INC := -I/Users/miszo97/Documents/Programming/boost_1_66_0
 PATH_TO_LIBS := -L/Users/miszo97/Documents/Programming/Other_stuff/boost_1_65_0/stage/lib
 LIBS := -lboost_system -lboost_coroutine -lncurses -pthread -lboost_log_setup -lboost_log -lboost_date_time -lboost_thread -lboost_filesystem
 
-all: main.o messages_section.o write_section.o section.o AWC.o server_interface.o client_interface.o safeQueue.o safeVector.o  connection_server_side.o connection_client_side.o free_functions.o 
-		$(COMPILER) $(WARNINGS) $(BOOST_DIR_INC) $(PATH_TO_LIBS) $(LIBS) main.o messages_section.o write_section.o section.o AWC.o server_interface.o client_interface.o safeVector.o safeQueue.o  connection_server_side.o connection_client_side.o  free_functions.o -o awc.exe
-debug: main.o messages_section.o write_section.o section.o AWC.o server_interface.o client_interface.o safeQueue.o safeVector.o  connection_server_side.o connection_client_side.o free_functions.o 
-		$(COMPILER) -g -O3 $(WARNINGS) $(BOOST_DIR_INC) $(PATH_TO_LIBS) $(LIBS) main.o messages_section.o write_section.o section.o AWC.o server_interface.o client_interface.o safeVector.o safeQueue.o  connection_server_side.o connection_client_side.o  free_functions.o -o awc.exe
-release: main.o messages_section.o write_section.o section.o AWC.o server_interface.o client_interface.o safeQueue.o safeVector.o  connection_server_side.o connection_client_side.o free_functions.o 
-		$(COMPILER) -O1 $(WARNINGS) $(BOOST_DIR_INC) $(PATH_TO_LIBS) $(LIBS) main.o messages_section.o write_section.o section.o AWC.o server_interface.o client_interface.o safeVector.o safeQueue.o  connection_server_side.o connection_client_side.o  free_functions.o -o awc.exe
+objects = main.o messages_section.o write_section.o section.o AWC.o \
+server_interface.o client_interface.o safeQueue.o safeVector.o \
+connection_server_side.o connection_client_side.o free_functions.o
+program_name = "awc.exe"
+
+all: $(objects) 
+		$(COMPILER) $(WARNINGS) $(BOOST_DIR_INC) $(PATH_TO_LIBS) $(LIBS) $(objects) -o $(program_name)
+debug: $(objects)
+		$(COMPILER) -g -O3 $(WARNINGS) $(BOOST_DIR_INC) $(PATH_TO_LIBS) $(LIBS) $(objects) -o $(program_name)
+release: $(objects)
+		$(COMPILER) -O1 $(WARNINGS) $(BOOST_DIR_INC) $(PATH_TO_LIBS) $(LIBS) $(objects) -o $(program_name)
 
 main.o: src/main.cpp
 	$(COMPILER) $(STD) $(WARNINGS) -c $(BOOST_DIR_INC) src/main.cpp
