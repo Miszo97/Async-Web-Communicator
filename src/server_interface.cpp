@@ -13,6 +13,8 @@
 #include <thread>
 #include <chrono>
 #include <ncurses.h>
+#include <boost/log/trivial.hpp>
+
 
 void server_interface::start()
 {
@@ -53,6 +55,10 @@ void server_interface::getInput()
 
     //prepare message
     std::string message(my_name+ ": " + data_to_send);
+
+    #ifdef LOGS
+        BOOST_LOG_TRIVIAL(trace) << "SI|getInput: " << message;
+    #endif
 
     exchange_data.push_back(message);
 

@@ -6,6 +6,7 @@
  */
 
 
+#include <boost/log/trivial.hpp>
 #include "connection_server_side.hpp"
 #include "safeQueue.hpp"
 #include "safeVector.hpp"
@@ -79,18 +80,15 @@ void connection_server_side::do_write() {
   
   //std::this_thread::sleep_for(std::chrono::seconds(1));
 
-    #ifdef _cerr_on
-    std::cerr << "on_read execution" << '\n';
-    //std::cout << new_message_index << " () " << exchange_data.size() << '\n';
-    std::cerr << "do_write() execution" << '\n';
-    #endif
+
 
     auto on_write = [this](const boost::system::error_code& ec, size_t bytes)
     {
-      #ifdef _cerr_on
-      std::cerr << "on_write execution" << '\n';
-      std::cerr << "Error code is: " << ec.message() << "\n";
-      #endif
+
+    #ifdef LOGS
+            BOOST_LOG_TRIVIAL(trace) << "ConSS|do_write: " << "Writing message with "<<bytes <<"bytes";
+    #endif
+
       assert(!ec);
       if(!ec)     
       new_message_index++;
@@ -106,19 +104,16 @@ void connection_server_side::do_write() {
 }
 void connection_server_side::do_read() {
 
-  #ifdef _cerr_on
-  std::cerr << "do_read() execution" << '\n';
-  std::cerr << "exchange size: " <<exchange_data.size()<< '\n';
-  #endif
 
   auto ptr_to_this = shared_from_this();
+
   auto on_read =
   [ptr_to_this, this]
   (const boost::system::error_code& ec, size_t bytes)
   {
-    #ifdef _cerr_on
-    std::cerr << "on_read execution" << '\n';
-    std::cerr << "Error code is: " << ec.message() << "\n";
+
+    #ifdef LOGS
+          BOOST_LOG_TRIVIAL(trace) << "ConSS|do_read: " << "reading message with "<<bytes <<"bytes";
     #endif
     
 

@@ -2,7 +2,7 @@
 #define section_hpp
 
 #include <ncurses.h>
-#undef timeout(delay)
+#undef timeout
 class Section
 
 {

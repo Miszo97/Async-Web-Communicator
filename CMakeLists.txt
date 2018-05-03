@@ -5,7 +5,7 @@ set(MY_SOURCE_DIR "/Users/artur/CLionProjects/Async-Web-Communicator/src")
 
 set(CMAKE_CXX_STANDARD 14)
 set(Boost_INCLUDE_DIR "/usr/local/boost_1_67_0/")
-set (CMAKE_CXX_FLAGS "-lncurses -L/usr/local/boost_1_67_0/stage/lib -lboost_system -lboost_coroutine")
+set (CMAKE_CXX_FLAGS "-DLOGS -DBOOST_COROUTINES_NO_DEPRECATION_WARNING -DBOOST_LOG_DYN_LINK -lncurses -L/usr/local/boost_1_67_0/stage/lib -lboost_system -lboost_coroutine -lboost_log_setup -pthread -lboost_log -lboost_date_time -lboost_thread -lboost_filesystem")
 
 include_directories( ${MY_SOURCE_DIR}/src )
 

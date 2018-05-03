@@ -12,6 +12,8 @@
 #include <thread>
 #include <chrono>
 #include <ncurses.h>
+#include <boost/log/trivial.hpp>
+
 #undef timeout(delay)
 
 void client_interface::start()
@@ -54,6 +56,10 @@ void client_interface::getInput()
 
     //prepare message to sent
     std::string message(std::string(my_name)+": "+std::string(data_to_send));
+
+    #ifdef LOGS
+        BOOST_LOG_TRIVIAL(trace) << "CI|getInput: " << message;
+    #endif
 
     //put message
     outgoing_data.push(message);

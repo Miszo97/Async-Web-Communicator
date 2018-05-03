@@ -6,6 +6,7 @@
  */
 
 
+#include <boost/log/trivial.hpp>
 #include "safeQueue.hpp"
 #include "safeVector.hpp"
 #include "connection_client_side.hpp"
@@ -63,13 +64,13 @@ ip::tcp::socket& connection_client_side::sock(){
 void connection_client_side::stop() {}
 void connection_client_side::do_write() {
 
-#ifdef DEBUG
-    std::cerr << "do_write() execution" << '\n';
-#endif // DEBUG
+
 
     auto on_write = [this](const boost::system::error_code& ec, size_t bytes)
     {
-      //std::cerr << "on_write execution, bytes: " <<bytes<< '\n';
+    #ifdef LOGS
+            BOOST_LOG_TRIVIAL(trace) << "ConCS|do_write: " << "Writing message with "<<bytes <<"bytes";
+    #endif
       assert(!ec);
       if(!ec)
       wait_for_write();
@@ -91,6 +92,10 @@ void connection_client_side::do_read() {
   {
     //std::cerr << "on_read execution" << '\n';
     //std::cerr << "Error code is "<<ec.message() << '\n';
+
+    #ifdef LOGS
+          BOOST_LOG_TRIVIAL(trace) << "ConCS|do_read: " << "reading message with "<<bytes <<"bytes";
+    #endif
 
     assert(!ec);
      if(!ec || ec != boost::asio::error::eof)
