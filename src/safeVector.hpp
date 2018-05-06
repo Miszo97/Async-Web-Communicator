@@ -19,6 +19,16 @@ template <typename T>
 class safeVector {
 
 public:
+
+
+  safeVector(const safeVector<T>&)  = delete;
+  safeVector(safeVector<T>&&)  = delete;
+  safeVector& operator=(const safeVector<T>&)= delete;
+  safeVector& operator=(safeVector<T>&&)= delete;
+
+  safeVector() = default;
+
+
   void push_back(const T&);
   T& back();
   T& operator[](size_t);

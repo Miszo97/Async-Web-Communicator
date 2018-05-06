@@ -19,6 +19,14 @@
 template <typename T>
 class safeQueue{
 public:
+
+    safeQueue(const safeQueue<T>&)  = delete;
+    safeQueue(safeQueue<T>&&)  = delete;
+    safeQueue& operator=(const safeQueue<T>&)= delete;
+    safeQueue& operator=(safeQueue<T>&&)= delete;
+
+    safeQueue() = default;
+
   void push(const T&);
   size_t size();
   T pop();
