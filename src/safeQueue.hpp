@@ -15,7 +15,9 @@
  #include <queue>
  #include <string>
 
-
+///
+/// \tparam T The type of the stored elements.
+/// \brief Thread-safe wrapper to managing Queue.
 template <typename T>
 class safeQueue{
 public:
@@ -41,12 +43,20 @@ private:
 
 };
 
+///
+/// \tparam Value to be stored.
+/// \param val Arbitrary value to be inserted which meets requirements of CopyInsertable.
+/// \brief Push element to queue with locking mutex.
+///
+
 template <typename T>
 void safeQueue<T>::push(const T& val){
   std::lock_guard<std::mutex> lg(mutex);
   q.push(val);
 }
-
+///
+/// \tparam T The type of the stored elements.
+/// \return Copy of popped value
 template <typename T>
 T safeQueue<T>::pop()
 {
@@ -55,7 +65,10 @@ T safeQueue<T>::pop()
   q.pop();
   return front;
 }
-
+///
+/// \tparam T The type of the stored elements.
+/// \return size of the inner queue.
+/// \brief return actually size of the inner queue with locking mutex.
 template <typename T>
 size_t safeQueue<T>::size(){
   std::lock_guard<std::mutex> lg(mutex);
