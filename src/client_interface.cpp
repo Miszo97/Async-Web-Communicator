@@ -1,10 +1,3 @@
-/*
- * @Author: Artur
- * @Date: 2018-03-26 00:44:26
- * @Last modified by:   miszo97
- * @Last modified time: March 27, 2018 2:59 PM
- */
-
 #include "client_interface.hpp"
 #include <iostream>
 #include "safeQueue.hpp"
@@ -13,9 +6,14 @@
 #include <chrono>
 #include <ncurses.h>
 #include <boost/log/trivial.hpp>
+#include <future>
 
-#undef timeout(delay)
+#undef timeout
 
+/*!
+ * This function create initial state of GUI. It gets actual size of terminal, Create a messages window and write window to display
+ * messages and fetch messages respectively. It also start getInput functions in second thread and display function in the current thread.
+ */
 void client_interface::start()
 {
   int rows, cols; //of terminal
@@ -29,14 +27,16 @@ void client_interface::start()
   write_section.createWindow(rows * (1 - ratio), cols, rows * ratio, 0);
   curs_set(0);
 
-  std::thread t1(&client_interface::getInput, this);
+
+  std::async(std::launch::async, &client_interface::getInput, this);
+
+
   while (1)
   {
     display();
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
   }
-  t1.join();
-  endwin();
+
 }
 
 client_interface::client_interface(safeVector<std::string> &_incoming_data, safeQueue<std::string> &_outgoing_data) : incoming_data(_incoming_data),
@@ -44,6 +44,12 @@ client_interface::client_interface(safeVector<std::string> &_incoming_data, safe
                                                                                                                       displayed_messagess_so_far(0)
 {}
 
+/*!
+ * The following function serves to get all input from user's keyboard. It has infinite loop which gets users
+ * keystrokes. Due to the fact it will never end it's intended to work in other thread. Once the input was fetched
+ * it invokes push function on outgoing_data, incoming_data members to send there the message.
+ * Note: the message before being sent is suitable formatted i.e adding author's name as a prefix.
+ */
 void client_interface::getInput()
 {
   char data_to_send[512];
@@ -73,7 +79,10 @@ void client_interface::getInput()
 }
 
 
-
+/*!
+ * This function is intended to work in it's own thread. It displays all the messages from incoming_data container
+ * and when it hits messages_section.max_displayed it starts displaying only the last messages_section.max_displayed messages .
+ */
 void client_interface::display()
 {
  //Don't borrow if there is no any message.
